@@ -1,0 +1,126 @@
+﻿<Window x:Class="WpfEnumConverterTest.MainWindow"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:converter="clr-namespace:WpfEnumConverterTest.Converter"
+		xmlns:local="clr-namespace:WpfEnumConverterTest"
+		mc:Ignorable="d"
+		Title="WPF Enum Converter Test"
+		Width="400" Height="400">
+	<Window.Resources>
+		<converter:EnumToBooleanConverter x:Key="Converter1"/>
+		<converter:EnumToBooleanConverter x:Key="Converter2" SourceType="local:TicketType"/>
+		<converter:TicketTypeToBooleanConverter x:Key="Converter3"/>
+		<converter:TicketTypeStringToBooleanConverter x:Key="Converter4"/>
+
+		<Style TargetType="{x:Type GroupBox}">
+			<Setter Property="Width" Value="120"/>
+			<Setter Property="Margin" Value="8,4,4,0"/>
+		</Style>
+
+		<Style TargetType="{x:Type ToggleButton}">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type ToggleButton}">
+						<Border BorderBrush="{TemplateBinding BorderBrush}"
+								BorderThickness="{TemplateBinding BorderThickness}"
+								Background="{TemplateBinding Background}"
+								CornerRadius="3">
+							<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+											  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+						</Border>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+			<Setter Property="Width" Value="72"/>
+			<Setter Property="HorizontalAlignment" Value="Left"/>
+			<Setter Property="Margin" Value="2"/>
+			<Setter Property="Content" Value="{x:Null}"/>
+			<Style.Triggers>
+				<Trigger Property="IsChecked" Value="True">
+					<Setter Property="Content" Value="Backward"/>
+				</Trigger>
+				<Trigger Property="IsChecked" Value="False">
+					<Setter Property="Content" Value="Forward"/>
+				</Trigger>
+			</Style.Triggers>
+		</Style>
+	</Window.Resources>
+	<Window.DataContext>
+		<local:MainWindowViewModel/>
+	</Window.DataContext>
+
+	<WrapPanel Margin="10"
+			   Orientation="Vertical">
+		<GroupBox Header="Ticket 1">
+			<StackPanel>
+				<RadioButton x:Name="RadioButton1" Content="Solo" IsChecked="{Binding Ticket1, Converter={StaticResource Converter1}, ConverterParameter=Solo}"/>
+				<ToggleButton IsChecked="{Binding ElementName=RadioButton1, Path=IsChecked, Mode=TwoWay}"/>
+			</StackPanel>
+		</GroupBox>
+
+		<GroupBox Header="Ticket 2">
+			<StackPanel>
+				<RadioButton x:Name="RadioButton2" Content="Solo" IsChecked="{Binding Ticket2, Converter={StaticResource Converter4}, ConverterParameter=Solo}"/>
+				<ToggleButton IsChecked="{Binding ElementName=RadioButton2, Path=IsChecked, Mode=TwoWay}"/>
+			</StackPanel>
+		</GroupBox>
+
+		<GroupBox Header="Ticket 3">
+			<StackPanel>
+				<RadioButton Content="Solo" IsChecked="{Binding Ticket3, Converter={StaticResource Converter1}, ConverterParameter=solo}"/>
+				<RadioButton Content="Double" IsChecked="{Binding Ticket3, Converter={StaticResource Converter1}, ConverterParameter=double}"/>
+				<RadioButton Content="Group" IsChecked="{Binding Ticket3, Converter={StaticResource Converter1}, ConverterParameter=group}"/>
+			</StackPanel>
+		</GroupBox>
+
+		<GroupBox Header="Ticket 4">
+			<StackPanel>
+				<RadioButton Content="Solo" IsChecked="{Binding Ticket4, Converter={StaticResource Converter1}, ConverterParameter={x:Static local:TicketType.Solo}}"/>
+				<RadioButton Content="Double" IsChecked="{Binding Ticket4, Converter={StaticResource Converter1}, ConverterParameter={x:Static local:TicketType.Double}}"/>
+				<RadioButton Content="Group" IsChecked="{Binding Ticket4, Converter={StaticResource Converter1}, ConverterParameter={x:Static local:TicketType.Group}}"/>
+			</StackPanel>
+		</GroupBox>
+
+		<GroupBox Header="Ticket 5">
+			<StackPanel>
+				<RadioButton Content="Solo" IsChecked="{Binding Ticket5, Converter={StaticResource Converter2}, ConverterParameter={x:Static local:TicketType.Solo}}"/>
+				<RadioButton Content="Double" IsChecked="{Binding Ticket5, Converter={StaticResource Converter2}, ConverterParameter={x:Static local:TicketType.Double}}"/>
+				<RadioButton Content="Group" IsChecked="{Binding Ticket5, Converter={StaticResource Converter2}, ConverterParameter={x:Static local:TicketType.Group}}"/>
+			</StackPanel>
+		</GroupBox>
+
+		<GroupBox Header="Ticket 6">
+			<StackPanel>
+				<RadioButton Content="Solo" IsChecked="{Binding Ticket6, Converter={StaticResource Converter3}, ConverterParameter=Solo}"/>
+				<RadioButton Content="Double" IsChecked="{Binding Ticket6, Converter={StaticResource Converter3}, ConverterParameter=Double}"/>
+				<RadioButton Content="Group" IsChecked="{Binding Ticket6, Converter={StaticResource Converter3}, ConverterParameter=Group}"/>
+			</StackPanel>
+		</GroupBox>
+
+		<GroupBox Header="Ticket 7">
+			<StackPanel>
+				<RadioButton Content="Solo" IsChecked="{Binding Ticket7, Converter={StaticResource Converter3}, ConverterParameter={x:Static local:TicketType.Solo}}"/>
+				<RadioButton Content="Double" IsChecked="{Binding Ticket7, Converter={StaticResource Converter3}, ConverterParameter={x:Static local:TicketType.Double}}"/>
+				<RadioButton Content="Group" IsChecked="{Binding Ticket7, Converter={StaticResource Converter3}, ConverterParameter={x:Static local:TicketType.Group}}"/>
+			</StackPanel>
+		</GroupBox>
+
+		<GroupBox Header="Ticket 8">
+			<StackPanel>
+				<RadioButton Content="Solo" IsChecked="{Binding Ticket8, Converter={StaticResource Converter4}, ConverterParameter=Solo}"/>
+				<RadioButton Content="Double" IsChecked="{Binding Ticket8, Converter={StaticResource Converter4}, ConverterParameter=Double}"/>
+				<RadioButton Content="Group" IsChecked="{Binding Ticket8, Converter={StaticResource Converter4}, ConverterParameter=Group}"/>
+			</StackPanel>
+		</GroupBox>
+
+		<GroupBox Header="Ticket 9">
+			<StackPanel>
+				<CheckBox Content="Solo" IsChecked="{Binding Ticket9, Converter={StaticResource Converter1}, ConverterParameter=Solo}"/>
+				<CheckBox Content="Double" IsChecked="{Binding Ticket9, Converter={StaticResource Converter1}, ConverterParameter=Double}"/>
+				<CheckBox Content="Group" IsChecked="{Binding Ticket9, Converter={StaticResource Converter1}, ConverterParameter=Group}"/>
+			</StackPanel>
+		</GroupBox>
+	</WrapPanel>
+</Window>
